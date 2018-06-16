@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dao-config>
+	<DaoFactory class="rs.eventbroker.db.EBDaoFactory" name="default">
+
+		<DaoMaster class="rs.data.hibernate.HibernateDaoMaster">
+			<!-- Parameters -->
+			<property name="dbconfig-file">class:rs.eventbroker.db.EnvironmentUrlProvider</property>
+			<property name="hbmconfig-file">hbm/hibernate.cfg.xml</property>
+		</DaoMaster>
+
+		<Dao class="rs.eventbroker.db.subscriber.SubscriberDao" />
+		
+	</DaoFactory>
+</dao-config>

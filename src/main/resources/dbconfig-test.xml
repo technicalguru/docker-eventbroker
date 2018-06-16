@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbconfig>
+	<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+	<property name="hibernate.hbm2ddl.auto">create</property>
+	<!-- HSQLDB 2.3.x does not work correctly (affected rows is 0 on update) -->
+	<datasource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass">org.hsqldb.jdbc.JDBCDriver</property>
+		<property name="jdbcUrl">jdbc:hsqldb:file:eb-test.hsqldb;shutdown=true
+		</property>
+		<property name="user">sa</property>
+		<property name="password"></property>
+	</datasource>
+</dbconfig>

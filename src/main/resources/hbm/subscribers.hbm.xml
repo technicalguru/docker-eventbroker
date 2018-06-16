@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hibernate XML Mapping File -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="rs.eventbroker.db.subscriber.SubscriberBO" table="eb_subscribers" dynamic-insert="false" dynamic-update="false" batch-size="300">
+		<id name="id" column="uid" type="int">
+			<generator class="native" />
+		</id>
+
+		<property name="topic" type="string" column="topic" not-null="true"/>
+		<property name="url" type="string" column="url" not-null="true"/>
+		<property name="authorization" type="string" column="authorization" not-null="false"/>
+	</class>
+</hibernate-mapping>
