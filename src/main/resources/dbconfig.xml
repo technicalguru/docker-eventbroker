@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dbconfig>
-   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-   <datasource class="com.mchange.v2.c3p0.ComboPooledDataSource">
-      <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
-      <property name="jdbcUrl">jdbc:mysql://eb-service:3306/oventa?useSSL=false&amp;autoReconnectForPools=true</property>
-      <property name="user">eb</property>
-      <property name="password">eb</property>
-      <property name="testConnectionOnCheckout">true</property>
-      <property name="preferredTestQuery">SELECT 1</property>
-      <property name="acquireRetryAttempts">5</property>
-      <property name="maxConnectionAge">7200</property>
-   </datasource>
+	<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+	<property name="hibernate.hbm2ddl.auto">create</property>
+	<!-- HSQLDB 2.3.x does not work correctly (affected rows is 0 on update) -->
+	<datasource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass">org.hsqldb.jdbc.JDBCDriver</property>
+		<property name="jdbcUrl">jdbc:hsqldb:file:eb.hsqldb;shutdown=true</property>
+		<property name="user">sa</property>
+		<property name="password"></property>
+	</datasource>
 </dbconfig>
