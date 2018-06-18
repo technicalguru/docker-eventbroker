@@ -17,7 +17,7 @@ public class ConsumerEventData {
 	protected EventData event;
 	/** The subscriber of this event */
 	protected ISubscriberBO subscriber;
-	
+
 	/**
 	 * Constructor.
 	 */
@@ -30,6 +30,8 @@ public class ConsumerEventData {
 	 * @param subscriber - subscription information
 	 */
 	public ConsumerEventData(EventData event, ISubscriberBO subscriber) {
+		setEvent(event);
+		setSubscriber(subscriber);
 	}
 
 	/**
@@ -64,5 +66,5 @@ public class ConsumerEventData {
 		this.subscriber = subscriber;
 	}
 
-	
+
 }

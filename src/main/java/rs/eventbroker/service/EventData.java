@@ -135,5 +135,14 @@ public class EventData implements Serializable {
 		this.dupFlag = dupFlag;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		return "EventData [packetId=" + packetId + ", topicName=" + topicName + ", qos=" + qos + ", payload=" + payload
+				+ ", retainFlag=" + retainFlag + ", dupFlag=" + dupFlag + "]";
+	}
+
 	
 }

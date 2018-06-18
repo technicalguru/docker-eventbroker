@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement
-public class PostResultData implements Serializable {
+public class PublishResultData implements Serializable {
 
 	/**
 	 * Serial UID.
@@ -23,7 +23,7 @@ public class PostResultData implements Serializable {
 	/**
 	 * Default Constructor.
 	 */
-	public PostResultData() {
+	public PublishResultData() {
 	}
 
 }

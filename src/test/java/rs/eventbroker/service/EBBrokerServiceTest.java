@@ -3,11 +3,12 @@
  */
 package rs.eventbroker.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.junit.Test;
 
 import com.mchange.util.AssertException;
 
+import rs.baselib.util.CommonUtils;
 import rs.eventbroker.AbstractServiceTest;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
@@ -46,7 +48,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 	public void testSubscribeWithoutAuthorization() {
 		testSubscribe(1, false);
 	}
-	
+
 	/**
 	 * Test the subscribe service call with authorization.
 	 */
@@ -54,7 +56,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 	public void testSubscribeWithAuthorization() {
 		testSubscribe(2, true);
 	}
-	
+
 	/**
 	 * Test the subscribe service call.
 	 */
@@ -73,9 +75,9 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			for (Integer i : rc) {
 				assertTrue("invalid return code", i.intValue() >= 0 && i.intValue() <= 2);
 			}
-			
+
 			// Check that data is in database and remove it again
-			getServiceFactory().begin();
+			begin();
 			SubscriberDao dao = getServiceFactory().getSubscriberDao();
 			for (String topic : data.getTopics()) {
 				ISubscriberBO bo = dao.findBy(topic, data.getCallbackUrl());
@@ -88,19 +90,19 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 				// Remove it again
 				dao.delete(bo);
 			}
-			getServiceFactory().commit();
+			commit();
 		} else {
 			throw new AssertException("subscribe call was not successful: "+response.getErrorMessage());
 		}
 	}
-	
+
 	/**
 	 * Test the unsubscribe service call.
 	 */
 	@Test
 	public void testUnsubscribe() {
 		// Create data in DB
-		getServiceFactory().begin();
+		begin();
 		SubscriberDao dao = getServiceFactory().getSubscriberDao();
 		List<String> topics = createTopics(3);
 		for (String topic : topics) {
@@ -110,7 +112,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			bo.setAuthorization(null);
 			dao.create(bo);
 		}
-		
+
 		UnsubscribeData data = createUnsubscribeData(3);
 		Entity<UnsubscribeData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
 		RestResult<UnsubscribeResultData> response = (RestResult<UnsubscribeResultData>)getRequest("unsubscribe", null).post(payload, new GenericType<RestResult<UnsubscribeResultData>>() {});
@@ -118,7 +120,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			// Check that response has all information
 			UnsubscribeResultData result = response.getData();
 			assertEquals("packetId idoes not match", data.getPacketId(), result.getPacketId());
-			
+
 			// Check that data is removed from database
 			for (String topic :topics) {
 				ISubscriberBO bo = dao.findBy(topic, data.getCallbackUrl());
@@ -127,9 +129,64 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 		} else {
 			throw new AssertException("unsubscribe call was not successful: "+response.getErrorMessage());
 		}
-		getServiceFactory().commit();
+		commit();
 	}
-	
+
+	/**
+	 * Test the public service call.
+	 */
+	@Test
+	public void testPublish() throws Exception {
+		String callbackUrl = "http://"+getServiceHost()+":"+getServicePort()+"/consume";
+		String topic       = EBBrokerService.TEST_TOPIC;
+		try {
+			begin();
+			// Register the service itself as subscriber
+			SubscriberDao dao = getServiceFactory().getSubscriberDao();
+			ISubscriberBO bo  = dao.newInstance(); 
+			bo.setTopic(topic);
+			bo.setUrl(callbackUrl);
+			bo.setAuthorization(null);
+			dao.create(bo);
+			commit();
+
+			// Publish an event
+			EventData data = new EventData();
+			data.setPacketId(EBBrokerService.TEST_PACKET_ID);
+			data.setTopicName(topic);
+			data.setPayload(EBBrokerService.TEST_PAYLOAD);
+			data.setRetainFlag(false);
+			data.setDupFlag(false);
+			data.setQos(0);
+			Entity<EventData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
+			long requestTime = (long)(System.currentTimeMillis() / 1000L)*1000L;
+			RestResult<PublishResultData> response = (RestResult<PublishResultData>)getRequest("publish", null).post(payload, new GenericType<RestResult<PublishResultData>>() {});
+			assertTrue("Cannot publish event", response.isSuccess());
+			
+			// We need to wait for event to be processed here
+			Thread.sleep(5000L);
+			
+			// Check the return (must be the same event)
+			File file = new File(EBBrokerService.TEST_FILE);
+			assertTrue("Event was not published (signal file missing)", file.exists());
+			assertTrue("Signal file too old (file="+file.lastModified()+", requestTime="+requestTime, file.lastModified() >= requestTime);
+			assertEquals("Event is not correct", data.toString(), CommonUtils.loadContent(file).trim());
+		} finally {
+			try {
+				// Unregister the service again
+				begin();
+				SubscriberDao dao = getServiceFactory().getSubscriberDao();
+				ISubscriberBO bo = dao.findBy(topic, callbackUrl);
+				dao.delete(bo);
+
+				commit();
+			} catch (Throwable t) {
+				throw new AssertException("unsubscribe call was not successful"+t.getMessage());
+			}
+		}
+	}
+
+
 	private static SubscribeData createSubscribeData(int version, boolean hasAuth) {
 		SubscribeData data = new SubscribeData();
 		data.setPacketId(StringUtils.leftPad(""+version, 10, '0'));
@@ -138,15 +195,15 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 		if (hasAuth) data.setAuthorization("authorization"+version);
 		return data;
 	}
-	
-	
+
+
 	private static UnsubscribeData createUnsubscribeData(int version) {
 		UnsubscribeData data = new UnsubscribeData();
 		data.setPacketId(StringUtils.leftPad(""+version, 10, '0'));
 		data.setTopics(createTopics(version));
 		return data;
 	}
-	
+
 	private static List<String> createTopics(int version) {
 		String t[] = createSingleTopics(version);
 		List<String> rc = new ArrayList<>();
@@ -155,7 +212,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 		rc.add(t[7]+'/'+t[8]+'/'+t[9]+'/'+t[10]+'/'+t[11]);
 		return rc;
 	}
-	
+
 	private static String[] createSingleTopics(int version) {
 		String rc[] = new String[100];
 		int baseVersion = version * rc.length * 10;

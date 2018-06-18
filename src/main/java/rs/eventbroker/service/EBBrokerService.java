@@ -3,6 +3,7 @@
  */
 package rs.eventbroker.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import rs.baselib.util.CommonUtils;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
 import rs.eventbroker.queue.EventBroker;
@@ -27,6 +29,15 @@ import rs.eventbroker.rest.RestResult;
 @PermitAll
 public class EBBrokerService extends AbstractService {
 
+	/** File to be used for testing the service */
+	public static final String TEST_FILE       = "test-eventbroker.txt";
+	/** Topic to be used for testing the service */
+	public static final String TEST_TOPIC      = "test/topic1";
+	/** Packet ID to be used for testing the service */
+	public static final String TEST_PACKET_ID  = "000001";
+	/** Payload to be used for testing the service */
+	public static final String TEST_PAYLOAD    = "Hello World!";
+
 	/**
 	 * Constructor.
 	 */
@@ -35,18 +46,40 @@ public class EBBrokerService extends AbstractService {
 
 	/**
 	 * Subscribes to topics.
-	 * @param data - the subscription data
+	 * @param event - the event data
 	 * @return the subscription data registered
 	 */
 	@POST
 	@Path("publish")
 	@Produces(MediaType.APPLICATION_JSON)
-	public RestResult<PostResultData> publish(EventData data) {
-		RestResult<PostResultData> rc = new RestResult<PostResultData>(new PostResultData());
-		EventBroker.INSTANCE.publish(data);
+	public RestResult<PublishResultData> publish(EventData event) {
+		RestResult<PublishResultData> rc = new RestResult<PublishResultData>(new PublishResultData());
+		EventBroker.INSTANCE.publish(event);
 		rc.setSuccess(true);
 		if (!rc.isSuccess()) rc.setErrorMessage("Cannot enqueue event");
 		return rc;
+	}
+
+	/**
+	 * Consumes an event for testing purposes.
+	 * @param event - the event data
+	 * @return the event itself
+	 */
+	@POST
+	@Path("consume")
+	@Produces(MediaType.APPLICATION_JSON)
+	public RestResult<EventData> consume(EventData event) {
+		// Signal success to test when the test event is detected
+		if (TEST_PACKET_ID.equals(event.getPacketId()) && TEST_TOPIC.equals(event.getTopicName()) && TEST_PAYLOAD.equals(event.getPayload())) {
+			File file = new File(TEST_FILE);
+			file.deleteOnExit();
+			try {
+				CommonUtils.writeContent(file, event.toString());
+			} catch (Throwable t) {
+				getLog().error("Cannot signal test event", t);
+			}
+		}
+		return new RestResult<EventData>(event);
 	}
 
 	/**

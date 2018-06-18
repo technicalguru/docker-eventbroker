@@ -13,8 +13,6 @@ import javax.ws.rs.client.WebTarget;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
 
-import rs.eventbroker.Main;
-
 /**
  * Helper class for performing REST calls.
  * @author ralph
@@ -89,7 +87,7 @@ public class RestClient {
 	 * @return the base target
 	 */
 	protected WebTarget createBaseTarget() {
-		return getClient().target(Main.BASE_URI);
+		return getClient().target(getBaseUri());
 	}
 
 	/**

@@ -23,10 +23,15 @@ import org.junit.Before;
  */
 public abstract class AbstractServiceTest extends AbstractTest {
 
+	private static final String TEST_SERVER_HOST = "localhost";
+	private static final int    TEST_SERVER_PORT = 8088;
+	
 	public boolean debug = false;
 	private HttpServer server;
 	private WebTarget baseTarget;
-
+	private String serviceHost = TEST_SERVER_HOST;
+	private int servicePort    = TEST_SERVER_PORT;
+	
 	/**
 	 * Constructor.
 	 * @param debug whether to construct debug.
@@ -35,9 +40,27 @@ public abstract class AbstractServiceTest extends AbstractTest {
 		this.debug = debug;
 	}
 	
+	/**
+	 * Returns the serviceHost.
+	 * @return the serviceHost
+	 */
+	public String getServiceHost() {
+		return serviceHost;
+	}
+
+
+	/**
+	 * Returns the servicePort.
+	 * @return the servicePort
+	 */
+	public int getServicePort() {
+		return servicePort;
+	}
+
+
 	@Before
 	public void setUp() throws Exception {
-		server = Main.startServer("localhost", 8088);
+		server = Main.startServer(getServiceHost(), getServicePort());
 		Client c = null;
 		if (isDebug()) {
 			ClientConfig clientConfig = new ClientConfig();
