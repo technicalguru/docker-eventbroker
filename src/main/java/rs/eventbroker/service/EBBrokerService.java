@@ -54,6 +54,7 @@ public class EBBrokerService extends AbstractService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public RestResult<PublishResultData> publish(EventData event) {
 		RestResult<PublishResultData> rc = new RestResult<PublishResultData>(new PublishResultData());
+		getLog().info("PUBLISH: "+event.toString());
 		EventBroker.INSTANCE.publish(event);
 		rc.setSuccess(true);
 		if (!rc.isSuccess()) rc.setErrorMessage("Cannot enqueue event");
