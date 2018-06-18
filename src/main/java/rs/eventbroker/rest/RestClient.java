@@ -30,6 +30,9 @@ public class RestClient {
 
 	/**
 	 * Constructor.
+	 * @param baseUri     - the URI to build all requests upon
+	 * @param secureToken - the Bearer token to be used (can be {@code null})
+	 * @param debug       - {@code true} when requests shall be debugged
 	 */
 	public RestClient(String baseUri, String secureToken, boolean debug) {
 		this.baseUri = baseUri;
@@ -111,8 +114,8 @@ public class RestClient {
 	}
 
 	/**
-	 * Returns a request builder for the path.
-	 * @param path the path for the request.
+	 * Returns a request builder for the target object.
+	 * @param target - the target for the request.
 	 * @return the builder
 	 */
 	public Builder getRequest(WebTarget target) {

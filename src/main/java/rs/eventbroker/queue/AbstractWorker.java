@@ -30,7 +30,7 @@ public abstract class AbstractWorker implements Runnable {
 
 	/**
 	 * Begins a transaction.
-	 * @see IDaoFactory#begin()
+	 * @see EBDaoFactory#begin()
 	 */
 	public void begin() {
 		getServiceFactory().begin();
@@ -39,7 +39,7 @@ public abstract class AbstractWorker implements Runnable {
 	/**
 	 * Begins a transaction.
 	 * @param timeout timeout of transaction
-	 * @see IDaoFactory#begin(long))
+	 * @see EBDaoFactory#begin(long)
 	 */
 	public void begin(long timeout) {
 		getServiceFactory().begin(timeout);
@@ -47,7 +47,7 @@ public abstract class AbstractWorker implements Runnable {
 
 	/**
 	 * Commits a transaction.
-	 * @see IDaoFactory#commit()
+	 * @see EBDaoFactory#commit()
 	 */
 	public void commit() {
 		getServiceFactory().commit();
@@ -55,7 +55,7 @@ public abstract class AbstractWorker implements Runnable {
 
 	/**
 	 * Rolls a transaction back.
-	 * @see IDaoFactory#rollback()
+	 * @see EBDaoFactory#rollback()
 	 */
 	public void rollback() {
 		getServiceFactory().rollback();

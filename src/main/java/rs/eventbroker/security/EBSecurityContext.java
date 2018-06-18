@@ -29,7 +29,7 @@ public class EBSecurityContext implements SecurityContext {
 
 	/**
 	 * Add the given role.
-	 * @param name
+	 * @param name - name of the role to be added
 	 */
 	public void addRole(String name) {
 		roles.add(name);
@@ -37,7 +37,7 @@ public class EBSecurityContext implements SecurityContext {
 	
 	/**
 	 * Add the given roles (comma-separated.
-	 * @param name
+	 * @param roles - roles to be added
 	 */
 	public void addRoles(String roles) {
 		for (String role : roles.split(",")) {
@@ -47,7 +47,7 @@ public class EBSecurityContext implements SecurityContext {
 	
 	/**
 	 * Sets the {@link #roles}.
-	 * @param roles the roles to set
+	 * @param roles - the roles to set
 	 */
 	public void setRoles(Set<String> roles) {
 		this.roles = roles;
@@ -94,7 +94,7 @@ public class EBSecurityContext implements SecurityContext {
 
 	/**
 	 * Sets the secure.
-	 * @param secure the secure to set
+	 * @param secure - the secure to set
 	 */
 	public void setSecure(boolean secure) {
 		this.secure = secure;

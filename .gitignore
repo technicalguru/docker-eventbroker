@@ -3,3 +3,6 @@
 /eb-test.hsqldb.properties
 /eb-test.hsqldb.script
 /target/
+/eb.hsqldb.log
+/eb.hsqldb.properties
+/eb.hsqldb.script

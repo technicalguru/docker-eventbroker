@@ -14,7 +14,6 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rs.data.api.IDaoFactory;
 import rs.data.impl.OsgiModelServiceImpl;
 import rs.eventbroker.db.EBDaoFactory;
 import rs.eventbroker.security.EBSecurityContext;
@@ -94,7 +93,7 @@ public abstract class AbstractService {
 
 	/**
 	 * Begins a transaction.
-	 * @see IDaoFactory#begin()
+	 * @see EBDaoFactory#begin()
 	 */
 	public void begin() {
 		getServiceFactory().begin();
@@ -102,8 +101,8 @@ public abstract class AbstractService {
 
 	/**
 	 * Begins a transaction.
-	 * @param timeout timeout of transaction
-	 * @see IDaoFactory#begin(long))
+	 * @param timeout - timeout of transaction
+	 * @see EBDaoFactory#begin(long)
 	 */
 	public void begin(long timeout) {
 		getServiceFactory().begin(timeout);
@@ -111,7 +110,7 @@ public abstract class AbstractService {
 
 	/**
 	 * Commits a transaction.
-	 * @see IDaoFactory#commit()
+	 * @see EBDaoFactory#commit()
 	 */
 	public void commit() {
 		getServiceFactory().commit();
@@ -119,7 +118,7 @@ public abstract class AbstractService {
 
 	/**
 	 * Rolls a transaction back.
-	 * @see IDaoFactory#rollback()
+	 * @see EBDaoFactory#rollback()
 	 */
 	public void rollback() {
 		getServiceFactory().rollback();

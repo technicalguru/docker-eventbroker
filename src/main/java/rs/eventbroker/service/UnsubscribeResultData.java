@@ -31,6 +31,7 @@ public class UnsubscribeResultData implements Serializable {
 
 	/**
 	 * Constructor.
+	 * @param packetId - the packet ID to be used in reference
 	 */
 	public UnsubscribeResultData(String packetId) {
 		setPacketId(packetId);

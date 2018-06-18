@@ -29,6 +29,8 @@ public class Main {
     
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+     * @param host - the IP address to listen at ({@code null} will listen to all IP addresses)
+     * @param port - the port to listen at {@code 0} will listen to port 80)
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer(String host, int port) {
@@ -53,8 +55,8 @@ public class Main {
 
     /**
      * Main method.
-     * @param args
-     * @throws IOException
+     * @param args - command line arguments
+     * @throws IOException - when an exception occured
      */
     public static void main(String[] args) throws IOException {
     	int port = 80;

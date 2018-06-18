@@ -34,6 +34,7 @@ public class SubscribeResultData implements Serializable {
 
 	/**
 	 * Constructor.
+	 * @param packetId - the packet ID to be used in reference
 	 */
 	public SubscribeResultData(String packetId) {
 		setPacketId(packetId);

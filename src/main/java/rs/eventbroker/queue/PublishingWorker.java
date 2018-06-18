@@ -28,6 +28,7 @@ public class PublishingWorker extends AbstractWorker {
 	
 	/**
 	 * Constructor.
+	 * @param data - the data about distribution to be processed
 	 */
 	public PublishingWorker(ConsumerEventData data) {
 		this.data = data;

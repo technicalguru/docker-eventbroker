@@ -24,6 +24,8 @@ public class EventHandler extends AbstractWorker {
 
 	/**
 	 * Constructor.
+	 * @param workerPool - the pool to be used for scheduling event distribution
+	 * @param event      - the event to be published
 	 */
 	public EventHandler(ExecutorService workerPool, EventData event) {
 		this.workerPool = workerPool;
@@ -54,12 +56,11 @@ public class EventHandler extends AbstractWorker {
 
 	/**
 	 * Matches the topic against the filter.
-	 * <p>Patterns are:
+	 * <p>Patterns are:</p>
 	 * <ul>
 	 * <li>+ - matches a single element (allowed anywhere, e.g. {@code /a/b/+/d})</li> 
 	 * <li># - matches multiple elements (allowed at end only, e.g. {@code /a/b/c/#})</li>
 	 * </ul>
-	 * </p>
 	 * @param filter - the filter to be used
 	 * @param topic  - the topic to be matched
 	 * @return {@code true} when the topic matches against the filter

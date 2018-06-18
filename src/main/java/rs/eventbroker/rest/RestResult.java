@@ -37,9 +37,9 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Constructor.
-	 * @param success
-	 * @param errorMessage
-	 * @param data
+	 * @param success      - {@code true} when request was successful 
+	 * @param errorMessage - error message to be set
+	 * @param data         - data to be transferred
 	 */
 	public RestResult(boolean success, String errorMessage, T data) {
 		setSuccess(success);
@@ -48,15 +48,17 @@ public class RestResult<T> implements Serializable {
 	}
 
 	/**
-	 * Constructor.
+	 * Constructor for a data transmission.
 	 * <p>Creates a {@link #NOT_FOUND_ERROR} when data is {@code null}.</p> 
+	 * @param data - data to be transferred
 	 */
 	public RestResult(T data) {
 		this(data != null, data != null ? null : NOT_FOUND_ERROR, data);
 	}
 
 	/**
-	 * Constructor.
+	 * Constructor for a failed request.
+	 * @param errorMessage - error message to be set
 	 */
 	public RestResult(String errorMessage) {
 		this(false, errorMessage, null);
@@ -72,7 +74,7 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Sets the success.
-	 * @param success the success to set
+	 * @param success - the success to set
 	 */
 	public void setSuccess(boolean success) {
 		this.success = success;
@@ -88,7 +90,7 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Sets the errorMessage.
-	 * @param errorMessage the errorMessage to set
+	 * @param errorMessage - the errorMessage to set
 	 */
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
@@ -104,7 +106,7 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Sets the data.
-	 * @param data the data to set
+	 * @param data - the data to set
 	 */
 	public void setData(T data) {
 		this.data = data;
@@ -112,7 +114,8 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Creates the correct result object (success).
-	 * @param data data to be transmitted
+	 * @param <X>    - The class to be used for the result data 
+	 * @param data - data to be transmitted
 	 * @return the rest result object
 	 */
 	public static <X extends Serializable> RestResult<X> from(X data) {
@@ -121,7 +124,8 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Creates the correct rest object (error).
-	 * @param error error to be transmitted
+	 * @param <X>    - The class to be used for the result data 
+	 * @param error - error to be transmitted
 	 * @return the rest result object
 	 */
 	public static <X extends Throwable> RestResult<X> error(X error) {
@@ -130,7 +134,9 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Creates the correct rest object (error).
-	 * @param error error to be transmitted
+	 * @param <X>    - The class to be used for the result data 
+	 * @param message - The error message to be transmitted
+	 * @param error - error to be transmitted
 	 * @return the rest result object
 	 */
 	public static <X extends Throwable> RestResult<X> error(String message, X error) {
@@ -139,7 +145,7 @@ public class RestResult<T> implements Serializable {
 
 	/**
 	 * Creates the correct rest object (error).
-	 * @param error error to be transmitted
+	 * @param message - The error message to be transmitted
 	 * @return the rest result object
 	 */
 	public static RestResult<? extends Serializable> error(String message) {
