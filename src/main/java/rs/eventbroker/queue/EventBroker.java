@@ -28,13 +28,19 @@ public class EventBroker {
 	/** The pool for worker threads */
 	protected ExecutorService workerPool = null;
 
+	/** The timer */
+	protected TimerSignaling timer = null;
+	
 	/**
 	 * Constructor.
 	 */
 	private EventBroker() {
 		// Start worker pool
 		workerPool = Executors.newFixedThreadPool(30);
-
+		// Start the timer
+		timer = new TimerSignaling(workerPool);
+		workerPool.execute(timer);
+		
     	// Stop the broker oin shutdown again
     	final Thread mainThread = Thread.currentThread();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -62,8 +68,9 @@ public class EventBroker {
 	 * Shutdown the broker service.
 	 */
 	protected void shutdown() {
+		// Stop the time
+		timer.stopRunning();
 		// Disable new tasks from being submitted
-		log.debug("Shutting down pool");
 		workerPool.shutdown(); 
 		try {
 			long start = System.currentTimeMillis();
