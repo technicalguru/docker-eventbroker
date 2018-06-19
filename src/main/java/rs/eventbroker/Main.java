@@ -8,6 +8,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
+import rs.eventbroker.queue.EventBroker;
 import rs.eventbroker.security.EBSecurityRequestFilter;
 
 /**
@@ -49,6 +50,9 @@ public class Main {
         
         // Start server
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, rc);
+        
+        // Make sure the event broker started
+        EventBroker.INSTANCE.start();
         
         return server;
     }

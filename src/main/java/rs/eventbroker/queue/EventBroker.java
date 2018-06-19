@@ -65,6 +65,12 @@ public class EventBroker {
 	}
 
 	/**
+	 * Dummy method.
+	 */
+	public void start() {
+	}
+	
+	/**
 	 * Shutdown the broker service.
 	 */
 	protected void shutdown() {

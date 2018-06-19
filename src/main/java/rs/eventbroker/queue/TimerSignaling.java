@@ -64,6 +64,10 @@ public class TimerSignaling implements Runnable {
 				topic.append("/month/");
 				topic.append(now.get(Calendar.MONTH)+1);
 				event.setTopicName(topic.toString());
+				event.setPayload("");
+				event.setQos(0);
+				event.setRetainFlag(false);
+				event.setDupFlag(false);
 				workerPool.execute(new EventHandler(workerPool, event));
 			}
 		}
