@@ -4,7 +4,7 @@
 package rs.eventbroker.queue;
 
 import java.util.Calendar;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
 import rs.baselib.util.RsDate;
 import rs.eventbroker.service.EventData;
@@ -19,14 +19,15 @@ public class TimerSignaling implements Runnable {
 
 	private volatile boolean stopRunning = false;
 
-	/** The pool for worker threads */
-	protected ExecutorService workerPool = null;
+	/** The executor for worker threads */
+	protected Executor executor = null;
 
 	/**
 	 * Constructor.
+	 * @param executor - the executor that will handle events.
 	 */
-	public TimerSignaling(ExecutorService workerPool) {
-		this.workerPool = workerPool;
+	public TimerSignaling(Executor executor) {
+		this.executor = executor;
 	}
 
 	/**
@@ -39,12 +40,7 @@ public class TimerSignaling implements Runnable {
 			// Loop until the next full minute
 			while (!stopRunning && (now.get(Calendar.SECOND) > 0)) {
 				// Sleep until next second
-				int ms = 1100 - now.get(Calendar.MILLISECOND);
-				try {
-					Thread.sleep(ms);
-				} catch (Throwable t) {
-					// Ignore silently
-				}
+				waitSecond();
 				now = new RsDate();
 			}
 
@@ -64,15 +60,31 @@ public class TimerSignaling implements Runnable {
 				topic.append("/month/");
 				topic.append(now.get(Calendar.MONTH)+1);
 				event.setTopicName(topic.toString());
-				event.setPayload("");
+				event.setPayload(now.getTimeZone().getID());
 				event.setQos(0);
 				event.setRetainFlag(false);
 				event.setDupFlag(false);
-				workerPool.execute(new EventHandler(workerPool, event));
+				executor.execute(new EventHandler(executor, event));
+				// Sleep until next second
+				waitSecond();
+				now = new RsDate();
 			}
 		}
 	}
 
+	/**
+	 * Waits until the next second.
+	 */
+	private static void waitSecond() {
+		// Sleep until next second
+		int ms = 1100 - new RsDate().get(Calendar.MILLISECOND);
+		try {
+			Thread.sleep(ms);
+		} catch (Throwable t) {
+			// Ignore silently
+		}
+	}
+	
 	/**
 	 * Stop this timer signaling.
 	 */

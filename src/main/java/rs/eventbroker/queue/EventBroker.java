@@ -38,8 +38,8 @@ public class EventBroker {
 		// Start worker pool
 		workerPool = Executors.newFixedThreadPool(30);
 		// Start the timer
-		//timer = new TimerSignaling(workerPool);
-		//workerPool.execute(timer);
+		timer = new TimerSignaling(workerPool);
+		new Thread(timer).start();
 		
     	// Stop the broker oin shutdown again
     	final Thread mainThread = Thread.currentThread();

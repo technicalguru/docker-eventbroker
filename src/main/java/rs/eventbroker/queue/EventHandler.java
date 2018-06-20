@@ -3,7 +3,7 @@
  */
 package rs.eventbroker.queue;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
 import rs.data.util.IDaoIterator;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
@@ -17,18 +17,18 @@ import rs.eventbroker.service.EventData;
  */
 public class EventHandler extends AbstractWorker {
 
-	/** The worker pool */
-	private ExecutorService workerPool;
+	/** The executor to be used */
+	private Executor executor;
 	/** The event to distribute */
 	private EventData event;
 
 	/**
 	 * Constructor.
-	 * @param workerPool - the pool to be used for scheduling event distribution
-	 * @param event      - the event to be published
+	 * @param executor - the executor to be used for scheduling event distribution
+	 * @param event    - the event to be published
 	 */
-	public EventHandler(ExecutorService workerPool, EventData event) {
-		this.workerPool = workerPool;
+	public EventHandler(Executor executor, EventData event) {
+		this.executor = executor;
 		this.event  = event;
 	}
 
@@ -45,7 +45,7 @@ public class EventHandler extends AbstractWorker {
 			while (i.hasNext()) {
 				ISubscriberBO subscriber = i.next();
 				if (topicMatches(subscriber.getTopic(), event.getTopicName())) {
-					workerPool.execute(new PublishingWorker(new ConsumerEventData(event, subscriber))); 
+					executor.execute(new PublishingWorker(new ConsumerEventData(event, subscriber))); 
 				}
 			}
 			i.close();
@@ -86,4 +86,14 @@ public class EventHandler extends AbstractWorker {
 		// matches only when both strings have equal number of elements
 		return fElements.length == tElements.length;
 	}
+
+	/**
+	 * Returns the event.
+	 * @return the event
+	 */
+	public EventData getEvent() {
+		return event;
+	}
+	
+	
 }
