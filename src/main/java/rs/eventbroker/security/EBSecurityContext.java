@@ -66,9 +66,6 @@ public class EBSecurityContext implements SecurityContext {
 	 */
 	@Override
 	public boolean isUserInRole(String role) {
-		// guest/public required? => return always true
-		if (EBRoles.GUEST.name().equals(role)) return true;
-		
 		// authorized clients are always enabled
 		if (roles.contains(EBRoles.CLIENT.name())) return true;
 		

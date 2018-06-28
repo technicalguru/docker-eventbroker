@@ -73,7 +73,7 @@ public class EventBroker {
 	/**
 	 * Shutdown the broker service.
 	 */
-	protected void shutdown() {
+	public void shutdown() {
 		// Stop the time
 		if (timer != null) timer.stopRunning();
 		// Disable new tasks from being submitted

@@ -19,8 +19,26 @@ public class Main {
 	
     /** Base URI the Grizzly HTTP server will listen on */
     public static String BASE_URI = null;
-
+    /** The token required to authorize */
+    protected static String secureToken = null;
+    
     /**
+     * Returns the secure token
+ 	 * @return the secureToken
+	 */
+	public static String getSecureToken() {
+		return secureToken;
+	}
+
+	/**
+    * Sets the secure token programmatically.
+	 * @param secureToken the secureToken to set
+	 */
+	public static void setSecureToken(String secureToken) {
+		Main.secureToken = secureToken;
+	}
+
+	/**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
      * @return Grizzly HTTP server.
      */
@@ -35,6 +53,9 @@ public class Main {
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer(String host, int port) {
+    	// Set the security token from environment
+		setSecureToken(System.getenv("EB_SECURE_TOKEN"));
+
     	if (host == null) host = "0.0.0.0";
     	if (port == 0) port = 80;
     	BASE_URI = "http://"+host+":"+port+"/";

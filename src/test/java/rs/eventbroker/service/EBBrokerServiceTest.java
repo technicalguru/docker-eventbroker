@@ -7,11 +7,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -23,6 +25,7 @@ import com.mchange.util.AssertException;
 
 import rs.baselib.util.CommonUtils;
 import rs.eventbroker.AbstractServiceTest;
+import rs.eventbroker.Main;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
 import rs.eventbroker.rest.RestResult;
@@ -186,7 +189,47 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 		}
 	}
 
-
+	@Test
+	public void testSecureTokenProtection1() {
+		try {
+			String secureToken = "abcdefghijklmnopqrstuvwxyz";
+			Main.setSecureToken(secureToken);
+			
+			// Test that a call will be rejected when calling without token
+			SubscribeData data = createSubscribeData(1, false);
+			Entity<SubscribeData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
+			getRequest("subscribe", null).post(payload, new GenericType<RestResult<SubscribeResultData>>() {});
+			fail("secure token does not protect calls");
+		} catch (AssertException e) {
+			throw e;
+		} catch (ForbiddenException e) {
+			// Yes! Done
+		} finally {
+			// Unset to enable other tests
+			Main.setSecureToken(null);
+		}
+	}
+	
+	@Test
+	public void testSecureTokenProtection2() {
+		try {
+			String secureToken = "abcdefghijklmnopqrstuvwxyz";
+			Main.setSecureToken(secureToken);
+			
+			// Test that a call will be rejected when calling without token
+			SubscribeData data = createSubscribeData(1, false);
+			Entity<SubscribeData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
+			getRequest("subscribe", secureToken).post(payload, new GenericType<RestResult<SubscribeResultData>>() {});
+		} catch (AssertException e) {
+			throw e;
+		} catch (ForbiddenException e) {
+			fail("secure token overprotects calls");
+		} finally {
+			// Unset to enable other tests
+			Main.setSecureToken(null);
+		}
+	}
+	
 	private static SubscribeData createSubscribeData(int version, boolean hasAuth) {
 		SubscribeData data = new SubscribeData();
 		data.setPacketId(StringUtils.leftPad(""+version, 10, '0'));

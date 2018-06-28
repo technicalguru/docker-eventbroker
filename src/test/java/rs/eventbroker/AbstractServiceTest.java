@@ -13,8 +13,12 @@ import javax.ws.rs.client.WebTarget;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
+import org.glassfish.jersey.server.BackgroundScheduler;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+
+import rs.eventbroker.queue.EventBroker;
 
 /**
  * Implements base test methods.
@@ -25,13 +29,13 @@ public abstract class AbstractServiceTest extends AbstractTest {
 
 	private static final String TEST_SERVER_HOST = "localhost";
 	private static final int    TEST_SERVER_PORT = 8088;
-	
+
 	public boolean debug = false;
 	private HttpServer server;
 	private WebTarget baseTarget;
 	private String serviceHost = TEST_SERVER_HOST;
 	private int servicePort    = TEST_SERVER_PORT;
-	
+
 	/**
 	 * Constructor.
 	 * @param debug whether to construct debug.
@@ -39,7 +43,7 @@ public abstract class AbstractServiceTest extends AbstractTest {
 	public AbstractServiceTest(boolean debug) {
 		this.debug = debug;
 	}
-	
+
 	/**
 	 * Returns the serviceHost.
 	 * @return the serviceHost
@@ -109,7 +113,7 @@ public abstract class AbstractServiceTest extends AbstractTest {
 		}
 		return rc;
 	}
-	
+
 	/**
 	 * Returns the {@link #debug}.
 	 * @return the debug
@@ -133,6 +137,6 @@ public abstract class AbstractServiceTest extends AbstractTest {
 	public WebTarget getBaseTarget() {
 		return baseTarget;
 	}
-	
-	
+
+
 }

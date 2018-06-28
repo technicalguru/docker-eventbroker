@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -51,6 +52,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Path("publish")
+	@RolesAllowed("CLIENT")
 	@Produces(MediaType.APPLICATION_JSON)
 	public RestResult<PublishResultData> publish(EventData event) {
 		RestResult<PublishResultData> rc = new RestResult<PublishResultData>(new PublishResultData());
@@ -68,6 +70,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Path("consume")
+	@RolesAllowed("CLIENT")
 	@Produces(MediaType.APPLICATION_JSON)
 	public RestResult<EventData> consume(EventData event) {
 		// Signal success to test when the test event is detected
@@ -90,6 +93,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("CLIENT")
 	@Path("subscribe")
 	public RestResult<SubscribeResultData> subscribe(SubscribeData data) {
 		SubscribeResultData rc = new SubscribeResultData(data.getPacketId());
@@ -129,6 +133,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("CLIENT")
 	@Path("unsubscribe")
 	public RestResult<UnsubscribeResultData> unsubscribe(UnsubscribeData data) {
 		UnsubscribeResultData rc = new UnsubscribeResultData(data.getPacketId());

@@ -11,6 +11,8 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.ext.Provider;
 
+import rs.eventbroker.Main;
+
 /**
  * Replaces the {@link javax.ws.rs.core.SecurityContext} in the request.
  * @author ralph
@@ -20,8 +22,6 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class EBSecurityRequestFilter implements ContainerRequestFilter {
 
-	protected String secureToken;
-	
 	/**
 	 * Constructor.
 	 */
@@ -37,11 +37,15 @@ public class EBSecurityRequestFilter implements ContainerRequestFilter {
 		EBSecurityContext securityContext = createSecurityContext();
 		securityContext.setSecure(requestContext.getSecurityContext().isSecure());
 		// Check request request
-		securityContext.addRole(EBRoles.GUEST.name());
-		String authValue = requestContext.getHeaderString("Authorization");
-		if (authValue != null) {
-			if (authValue.startsWith("Bearer "+secureToken)) {
-				securityContext.addRole(EBRoles.CLIENT.name());
+		String secureToken = Main.getSecureToken();
+		if (secureToken == null) {
+			securityContext.addRole(EBRoles.CLIENT.name());
+		} else {
+			String authValue = requestContext.getHeaderString("Authorization");
+			if (authValue != null) {
+				if (authValue.startsWith("Bearer "+secureToken)) {
+					securityContext.addRole(EBRoles.CLIENT.name());
+				}
 			}
 		}
 		requestContext.setSecurityContext(securityContext);
@@ -54,5 +58,5 @@ public class EBSecurityRequestFilter implements ContainerRequestFilter {
 	protected EBSecurityContext createSecurityContext() {
 		return new EBSecurityContext();
 	}
-	
+
 }

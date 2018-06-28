@@ -10,8 +10,7 @@ package rs.eventbroker.security;
  */
 public enum EBRoles {
 
-	/** A guest */
-	GUEST,
 	/** A client */
 	CLIENT;
+	
 }
