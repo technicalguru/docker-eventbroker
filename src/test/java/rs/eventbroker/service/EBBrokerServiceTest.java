@@ -7,11 +7,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -21,8 +22,8 @@ import org.junit.Test;
 
 import com.mchange.util.AssertException;
 
-import rs.baselib.util.CommonUtils;
 import rs.eventbroker.AbstractServiceTest;
+import rs.eventbroker.Main;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
 import rs.eventbroker.rest.RestResult;
@@ -151,6 +152,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			commit();
 
 			// Publish an event
+			EBBrokerService.TEST_EVENT = null;
 			EventData data = new EventData();
 			data.setPacketId(EBBrokerService.TEST_PACKET_ID);
 			data.setTopicName(topic);
@@ -159,7 +161,6 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			data.setDupFlag(false);
 			data.setQos(0);
 			Entity<EventData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
-			long requestTime = (long)(System.currentTimeMillis() / 1000L)*1000L;
 			RestResult<PublishResultData> response = (RestResult<PublishResultData>)getRequest("publish", null).post(payload, new GenericType<RestResult<PublishResultData>>() {});
 			assertTrue("Cannot publish event", response.isSuccess());
 			
@@ -167,10 +168,8 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			Thread.sleep(5000L);
 			
 			// Check the return (must be the same event)
-			File file = new File(EBBrokerService.TEST_FILE);
-			assertTrue("Event was not published (signal file missing)", file.exists());
-			assertTrue("Signal file too old (file="+file.lastModified()+", requestTime="+requestTime, file.lastModified() >= requestTime);
-			assertEquals("Event is not correct", data.toString(), CommonUtils.loadContent(file).trim());
+			assertNotNull("Event was not published (signal file missing)", EBBrokerService.TEST_EVENT);
+			assertEquals("Event is not correct", data.toString(), EBBrokerService.TEST_EVENT.trim());
 		} finally {
 			try {
 				// Unregister the service again
@@ -186,7 +185,47 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 		}
 	}
 
-
+	@Test
+	public void testSecureTokenProtection1() {
+		try {
+			String secureToken = "abcdefghijklmnopqrstuvwxyz";
+			Main.setSecureToken(secureToken);
+			
+			// Test that a call will be rejected when calling without token
+			SubscribeData data = createSubscribeData(1, false);
+			Entity<SubscribeData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
+			getRequest("subscribe", null).post(payload, new GenericType<RestResult<SubscribeResultData>>() {});
+			fail("secure token does not protect calls");
+		} catch (AssertException e) {
+			throw e;
+		} catch (ForbiddenException e) {
+			// Yes! Done
+		} finally {
+			// Unset to enable other tests
+			Main.setSecureToken(null);
+		}
+	}
+	
+	@Test
+	public void testSecureTokenProtection2() {
+		try {
+			String secureToken = "abcdefghijklmnopqrstuvwxyz";
+			Main.setSecureToken(secureToken);
+			
+			// Test that a call will be rejected when calling without token
+			SubscribeData data = createSubscribeData(1, false);
+			Entity<SubscribeData> payload = Entity.entity(data, MediaType.APPLICATION_JSON_TYPE);
+			getRequest("subscribe", secureToken).post(payload, new GenericType<RestResult<SubscribeResultData>>() {});
+		} catch (AssertException e) {
+			throw e;
+		} catch (ForbiddenException e) {
+			fail("secure token overprotects calls");
+		} finally {
+			// Unset to enable other tests
+			Main.setSecureToken(null);
+		}
+	}
+	
 	private static SubscribeData createSubscribeData(int version, boolean hasAuth) {
 		SubscribeData data = new SubscribeData();
 		data.setPacketId(StringUtils.leftPad(""+version, 10, '0'));

@@ -3,17 +3,16 @@
  */
 package rs.eventbroker.service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import rs.baselib.util.CommonUtils;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
 import rs.eventbroker.queue.EventBroker;
@@ -29,8 +28,8 @@ import rs.eventbroker.rest.RestResult;
 @PermitAll
 public class EBBrokerService extends AbstractService {
 
-	/** File to be used for testing the service */
-	public static final String TEST_FILE       = "test-eventbroker.txt";
+	/** Var to be used for testing the service */
+	public static String TEST_EVENT       = null;
 	/** Topic to be used for testing the service */
 	public static final String TEST_TOPIC      = "test/topic1";
 	/** Packet ID to be used for testing the service */
@@ -51,6 +50,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Path("publish")
+	@RolesAllowed("CLIENT")
 	@Produces(MediaType.APPLICATION_JSON)
 	public RestResult<PublishResultData> publish(EventData event) {
 		RestResult<PublishResultData> rc = new RestResult<PublishResultData>(new PublishResultData());
@@ -68,17 +68,12 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Path("consume")
+	@RolesAllowed("CLIENT")
 	@Produces(MediaType.APPLICATION_JSON)
 	public RestResult<EventData> consume(EventData event) {
 		// Signal success to test when the test event is detected
 		if (TEST_PACKET_ID.equals(event.getPacketId()) && TEST_TOPIC.equals(event.getTopicName()) && TEST_PAYLOAD.equals(event.getPayload())) {
-			File file = new File(TEST_FILE);
-			file.deleteOnExit();
-			try {
-				CommonUtils.writeContent(file, event.toString());
-			} catch (Throwable t) {
-				getLog().error("Cannot signal test event", t);
-			}
+			TEST_EVENT=event.toString();
 		}
 		return new RestResult<EventData>(event);
 	}
@@ -90,6 +85,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("CLIENT")
 	@Path("subscribe")
 	public RestResult<SubscribeResultData> subscribe(SubscribeData data) {
 		SubscribeResultData rc = new SubscribeResultData(data.getPacketId());
@@ -129,6 +125,7 @@ public class EBBrokerService extends AbstractService {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("CLIENT")
 	@Path("unsubscribe")
 	public RestResult<UnsubscribeResultData> unsubscribe(UnsubscribeData data) {
 		UnsubscribeResultData rc = new UnsubscribeResultData(data.getPacketId());
