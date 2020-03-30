@@ -7,6 +7,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+import org.slf4j.LoggerFactory;
 
 import rs.eventbroker.queue.EventBroker;
 import rs.eventbroker.security.EBSecurityRequestFilter;
@@ -70,6 +71,7 @@ public class Main {
         URI uri = URI.create(BASE_URI);
         
         // Start server
+        LoggerFactory.getLogger(Main.class).info("Listening on: "+uri.toASCIIString());
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, rc);
         
         // Make sure the event broker started
