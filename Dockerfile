@@ -42,4 +42,5 @@ COPY src/main/bin/ /var/www/jersey/
 RUN chmod 777 /var/www/jersey/*.sh
 
 EXPOSE 80
-CMD ["/var/www/jersey/run.sh"]
+#CMD ["/var/www/jersey/run.sh"]
+CMD ["/var/www/jersey/loop.sh"]
