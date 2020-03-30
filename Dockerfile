@@ -3,7 +3,7 @@ MAINTAINER Ralph Schuster <github@ralph-schuster.eu>
 
 # setup environment
 ENV JAVA_HOME /usr/local/java
-ENV JAVA_VERSION 9.0.4
+ENV JAVA_VERSION 14
 ENV JDK_TGZ_URL="http://download.ralph-schuster.eu/jdk/jdk${JAVA_VERSION}.tar.gz"
 
 RUN apt-get update \
