@@ -98,10 +98,15 @@
 			<artifactId>oauth2-client</artifactId>
 			<version>${jersey.version}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
-		<!-- <dependency> <groupId>org.glassfish.jersey.core</groupId> <artifactId>jersey-common</artifactId> 
-			<version>${jersey.version}</version> </dependency> <dependency> <groupId>org.glassfish.jersey.inject</groupId> 
-			<artifactId>jersey-hk2</artifactId> <version>${jersey.version}</version> 
-			</dependency> -->
+		<dependency> <groupId>org.glassfish.jersey.core</groupId> 
+			<artifactId>jersey-common</artifactId> 
+			<version>${jersey.version}</version> 
+		</dependency> 
+		<dependency> 
+			<groupId>org.glassfish.jersey.inject</groupId> 
+			<artifactId>jersey-hk2</artifactId> 
+			<version>${jersey.version}</version> 
+ 		</dependency>
 		<dependency>
 			<groupId>com.sun.activation</groupId>
 			<artifactId>javax.activation</artifactId>
