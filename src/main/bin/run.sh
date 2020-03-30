@@ -10,5 +10,5 @@ do
 	CLASSPATH=$CLASSPATH:$F
 done
 
-/usr/local/bin/java -cp $CLASSPATH rs.eventbroker.Main
+/usr/local/bin/java -cp $CLASSPATH rs.eventbroker.Main $@
 
