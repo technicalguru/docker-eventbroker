@@ -1,5 +1,5 @@
 FROM debian:10.2
-MAINTAINER Ralph Schuster <github@ralph-schuster.eu>
+LABEL maintainer="Ralph Schuster <github@ralph-schuster.eu>"
 
 # setup environment
 ENV JAVA_HOME /usr/local/java
