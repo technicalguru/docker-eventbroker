@@ -11,7 +11,11 @@ import rs.eventbroker.service.EventData;
 
 /**
  * A long-time running worker that signal every minute for timing events.
- * <p>Purpose is to implement cron-alike events</p>
+ * <p>Purpose is to implement cron-alike events. Topics look like:</p>
+ * <pre>timer/min/40/hour/14/day/3/weekday/1/month/11</pre>
+ * <p> where weekdays are indexed (Sun=1 ... Sat=7) and months are zero-based 
+ * indices (Jan=0 ... Dec=11). The payload is the timezone of this information, e.g. Europe/Berlin.</p>
+ * 
  * @author ralph
  *
  */
