@@ -27,7 +27,7 @@ _EventBroker_  is available as a Docker image at [DockerHub](https://hub.docker.
 ```
 
 ## Running the Docker Image
-To run  _EventBroker_  in your environment, start it in Docker:
+Issue the following command to run  _EventBroker_  in your Docker environment:
 
 ```
 docker run -ti technicalguru/eventbroker  
