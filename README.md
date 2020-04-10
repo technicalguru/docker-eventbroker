@@ -30,14 +30,15 @@ _EventBroker_  is available as a Docker image at [DockerHub](https://hub.docker.
 To run  _EventBroker_  in your environment, start it in Docker:
 
 ```
-docker run --env EB_SECURE_TOKEN=my-secure-token technicalguru/eventbroker /var/www/jersey/run.sh 
+docker run -ti technicalguru/eventbroker  
 ```
 
 This will run  _EventBroker_  on port 80 with a HSQLDB as storage backend. Several features can be configured:
 
 * Set environment variable `EB_DB_CONFIG` to use your own database backend. See examples at [src/main/resources](src/main/resources). Do not forget to mount your config XML file into the docker container.
-* Set the listening port by running `/var/www/jersey/run.sh <port>`. 
-* Set the specific listening interface by running `/var/www/jersey/run.sh <port> <ip-address>`
+* Set the listening port by running the command `/var/www/jersey/run.sh <port>`. 
+* Set the specific listening interface by running the command `/var/www/jersey/run.sh <port> <ip-address>`
+* Set environment variable `EB_SECURE_TOKEN` to a specific string in order to protect your API by a Bearer token.
 
 ## Documentation
 
