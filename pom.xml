@@ -13,6 +13,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>RS Event Broker</name>
 	<description>An MQTT-alike event broker to enable losely coupled microservices being synchronized</description>
+	<url>https://github.com/technicalguru/evenbroker</url>
 
 	<scm>
 		<connection>scm:git:https://github.com/technicalguru/eventbroker.git</connection>
