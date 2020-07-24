@@ -7,12 +7,16 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * An event that occurs.
  * @author ralph
  *
  */
 @XmlRootElement
+@ApiModel(value="MQTT event", description="MQTT event")
 public class EventData implements Serializable {
 
 	/**
@@ -43,6 +47,7 @@ public class EventData implements Serializable {
 	 * Returns the unique event ID.
 	 * @return the unique packet id
 	 */
+	@ApiModelProperty(value = "Unique ID of the event/packet")
 	public String getPacketId() {
 		return packetId;
 	}
@@ -59,6 +64,7 @@ public class EventData implements Serializable {
 	 * Returns the topic name to be published to.
 	 * @return the topic name
 	 */
+	@ApiModelProperty(value = "Topic name")
 	public String getTopicName() {
 		return topicName;
 	}
@@ -75,6 +81,7 @@ public class EventData implements Serializable {
 	 * Returns the Quality of Service level (0=at most once, 1=at least once, 2=exactly once).
 	 * @return the Quality of Service level
 	 */
+	@ApiModelProperty(value = "Quality of Service level", allowableValues = "0,1,2")
 	public Integer getQos() {
 		return qos;
 	}
@@ -91,6 +98,7 @@ public class EventData implements Serializable {
 	 * Returns the payload of the event.
 	 * @return the payload
 	 */
+	@ApiModelProperty(value = "Payload")
 	public String getPayload() {
 		return payload;
 	}
@@ -107,6 +115,7 @@ public class EventData implements Serializable {
 	 * Returns whether the event will be saved and made available to new subscribers.
 	 * @return {@code true} when event needs to be retained
 	 */
+	@ApiModelProperty(value = "Retain flag (event will be saved and made available to new subscribers)")
 	public boolean isRetainFlag() {
 		return retainFlag;
 	}
@@ -123,6 +132,7 @@ public class EventData implements Serializable {
 	 * Returns whether this is a duplicate event.
 	 * @return {@code true} when event is a duplicate
 	 */
+	@ApiModelProperty(value = "Duplicate flag")
 	public boolean isDupFlag() {
 		return dupFlag;
 	}

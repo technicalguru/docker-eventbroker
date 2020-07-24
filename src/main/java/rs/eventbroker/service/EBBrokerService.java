@@ -13,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
 import rs.eventbroker.queue.EventBroker;
@@ -26,6 +28,7 @@ import rs.eventbroker.rest.RestResult;
  */
 @Path("")
 @PermitAll
+@Api
 public class EBBrokerService extends AbstractService {
 
 	/** Var to be used for testing the service */
@@ -44,7 +47,7 @@ public class EBBrokerService extends AbstractService {
 	}
 
 	/**
-	 * Subscribes to topics.
+	 * Publishes an MQTT event.
 	 * @param event - the event data
 	 * @return the subscription data registered
 	 */
@@ -52,6 +55,8 @@ public class EBBrokerService extends AbstractService {
 	@Path("publish")
 	@RolesAllowed("CLIENT")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Publish event",
+               description = "Publish an MQTT event on a topic")
 	public RestResult<PublishResultData> publish(EventData event) {
 		RestResult<PublishResultData> rc = new RestResult<PublishResultData>(new PublishResultData());
 		getLog().info("PUBLISH: "+event.toString());
@@ -70,6 +75,8 @@ public class EBBrokerService extends AbstractService {
 	@Path("consume")
 	@RolesAllowed("CLIENT")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Consume event",
+               description = "Consume a MQTT event for testing purposes")
 	public RestResult<EventData> consume(EventData event) {
 		// Signal success to test when the test event is detected
 		if (TEST_PACKET_ID.equals(event.getPacketId()) && TEST_TOPIC.equals(event.getTopicName()) && TEST_PAYLOAD.equals(event.getPayload())) {
@@ -87,6 +94,8 @@ public class EBBrokerService extends AbstractService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("CLIENT")
 	@Path("subscribe")
+	@Operation(summary = "Subscribe topic",
+               description = "Subscribe to a topic")
 	public RestResult<SubscribeResultData> subscribe(SubscribeData data) {
 		SubscribeResultData rc = new SubscribeResultData(data.getPacketId());
 		try {
@@ -127,6 +136,8 @@ public class EBBrokerService extends AbstractService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("CLIENT")
 	@Path("unsubscribe")
+	@Operation(summary = "Unsubscribe topic",
+               description = "Unsubscribe from a topic")
 	public RestResult<UnsubscribeResultData> unsubscribe(UnsubscribeData data) {
 		UnsubscribeResultData rc = new UnsubscribeResultData(data.getPacketId());
 		try {
@@ -142,7 +153,7 @@ public class EBBrokerService extends AbstractService {
 			commit();
 		} catch (Throwable t) {
 			try {
-				logError("Cannot subscribe", t);
+				logError("Cannot unsubscribe", t);
 				rollback();
 			} catch (Throwable t2) {
 				logError("Cannot rollback after error", t2);

@@ -1,0 +1,12 @@
+# Source see: https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Integration-and-Configuration#configuration
+resourcePackages:
+- rs.eventbroker
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: '1.0'
+    title: EventBroker REST API
+    description: 'The MQTT-like event broker'
+    contact:
+      email: technicalguru@github.com

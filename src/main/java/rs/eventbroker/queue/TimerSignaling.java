@@ -47,7 +47,7 @@ public class TimerSignaling implements Runnable {
 				waitSecond();
 				now = new RsDate();
 			}
-
+			
 			// We shall now be at a full minute
 			if (!stopRunning) {
 				EventData event = new EventData();
