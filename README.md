@@ -46,6 +46,7 @@ More documentation is available here:
 * [Source Code](https://github.com/technicalguru/docker-eventbroker)
 * [API Documentation](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.1/apidocs)
 * [Cron Feature](CRON.md)
+* [OpenAPI/Swagger](apidocs/README.md)
 * [Maven Site](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.1/)
 * [Change Log](CHANGES.md)
 
