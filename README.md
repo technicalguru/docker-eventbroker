@@ -22,7 +22,7 @@ _EventBroker_  is available as a Docker image at [DockerHub](https://hub.docker.
 <dependency>
   <groupId>eu.ralph-schuster</groupId>
   <artifactId>eventbroker</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
@@ -44,8 +44,9 @@ This will run  _EventBroker_  on port 80 with a HSQLDB as storage backend. Sever
 
 More documentation is available here:
 * [Source Code](https://github.com/technicalguru/docker-eventbroker)
-* [API Documentation](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.0/apidocs)
-* [Maven Site](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.0/)
+* [API Documentation](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.1/apidocs)
+* [Cron Feature](CRON.md)
+* [Maven Site](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.1/)
 * [Change Log](CHANGES.md)
 
 ## Issues
@@ -53,7 +54,6 @@ More documentation is available here:
 * API authorization imitates OAuth token by checking the token against a fix environment variable. This token can not be limited to certain topics, clients or privileges (see [EB-4](https://jira.ralph-schuster.eu/browse/EB-4)).
 * Shutdown can take up to 60 secs.
 * Only HTTP is supported.
-* Cron-feature not yet documented (see [EB-3](https://jira.ralph-schuster.eu/browse/EB-3)). Refer to the [source code](https://github.com/technicalguru/docker-eventbroker/blob/master/src/main/java/rs/eventbroker/queue/TimerSignaling.java) meanwhile.
 * The database structure is not yet documented (see [EB-5](https://jira.ralph-schuster.eu/browse/EB-5)). Please refer to [Hibernate configuration](https://github.com/technicalguru/docker-eventbroker/tree/master/src/main/resources/hbm) and [Subscriber source code](https://github.com/technicalguru/docker-eventbroker/blob/master/src/main/java/rs/eventbroker/db/subscriber/) meanwhile.
 
 ## Contribution
