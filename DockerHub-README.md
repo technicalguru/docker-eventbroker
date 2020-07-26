@@ -1,6 +1,7 @@
 # Supported tags and respective `Dockerfile` links
 
-* [`1.0.0`](https://github.com/technicalguru/docker-eventbroker/blob/v1.0.0/Dockerfile), [`latest`](https://github.com/technicalguru/docker-eventbroker/blob/master/Dockerfile)
+* [`1.1.0`](https://github.com/technicalguru/docker-eventbroker/blob/v1.1.0/Dockerfile), [`latest`](https://github.com/technicalguru/docker-eventbroker/blob/v1.1.0/Dockerfile)
+* [`1.0.0`](https://github.com/technicalguru/docker-eventbroker/blob/v1.0.0/Dockerfile), [`latest`](https://github.com/technicalguru/docker-eventbroker/blob/v1.0.0/Dockerfile)
 
 # What is EventBroker?
 _EventBroker_  is a MQTT-alike message broker that enables losely coupled microservices. The broker connects to a JDBC data source in order to configure the messaging rules.
@@ -41,8 +42,6 @@ More documentation is available at [GitHub]((https://github.com/technicalguru/do
 * API authorization imitates OAuth token by checking the token against a fix environment variable. This token can not be limited to certain topics, clients or privileges (see [`EB-4`](https://jira.ralph-schuster.eu/browse/EB-4)).
 * Shutdown can take up to 60 secs.
 * Only HTTP is supported.
-* Cron-feature not yet documented (see [`EB-3`](https://jira.ralph-schuster.eu/browse/EB-3)). Refer to the [source code](https://github.com/technicalguru/docker-eventbroker/blob/master/src/main/java/rs/eventbroker/queue/TimerSignaling.java) meanwhile.
-* The database structure is not yet documented (see [`EB-5`](https://jira.ralph-schuster.eu/browse/EB-5)). Please refer to [Hibernate configuration](https://github.com/technicalguru/docker-eventbroker/tree/master/src/main/resources/hbm) and [`Subscriber` source code](https://github.com/technicalguru/docker-eventbroker/blob/master/src/main/java/rs/eventbroker/db/subscriber/) meanwhile.
 
 # Contribution
-Report a bug or request an enhancement at the [JIRA Issue Tracker](https://jira.ralph-schuster.eu/projects/EB/summary).
+Report a bug or request an enhancement at the [JIRA Issue Tracker](https://jira.ralph-schuster.eu:8443/projects/EB/summary).

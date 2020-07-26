@@ -56,7 +56,6 @@ More documentation is available here:
 * API authorization imitates OAuth token by checking the token against a fix environment variable. This token can not be limited to certain topics, clients or privileges (see [EB-4](https://jira.ralph-schuster.eu/browse/EB-4)).
 * Shutdown can take up to 60 secs.
 * Only HTTP is supported.
-* The database structure is not yet documented (see [EB-5](https://jira.ralph-schuster.eu/browse/EB-5)). Please refer to [Hibernate configuration](https://github.com/technicalguru/docker-eventbroker/tree/master/src/main/resources/hbm) and [Subscriber source code](https://github.com/technicalguru/docker-eventbroker/blob/master/src/main/java/rs/eventbroker/db/subscriber/) meanwhile.
 
 ## Contribution
-Report a bug or request an enhancement at the [JIRA Issue Tracker](https://jira.ralph-schuster.eu/projects/EB/summary).
+Report a bug or request an enhancement at the [JIRA Issue Tracker](https://jira.ralph-schuster.eu:8443/projects/EB/summary).
