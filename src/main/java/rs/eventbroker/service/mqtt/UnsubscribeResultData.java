@@ -1,20 +1,19 @@
 /**
  * 
  */
-package rs.eventbroker.service;
+package rs.eventbroker.service.mqtt;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * The object that is returned from subscribe.
+ * The object that is returned from unsubscribe.
  * @author ralph
  *
  */
 @XmlRootElement
-public class SubscribeResultData implements Serializable {
+public class UnsubscribeResultData implements Serializable {
 
 	/**
 	 * Serial UID.
@@ -23,20 +22,18 @@ public class SubscribeResultData implements Serializable {
 
 	/** The UID of this event */
 	private String packetId;
-	/** The topic filters to subscribe */
-	private List<Integer> returnCodes;
 	
 	/**
 	 * Constructor.
 	 */
-	public SubscribeResultData() {
+	public UnsubscribeResultData() {
 	}
 
 	/**
 	 * Constructor.
 	 * @param packetId - the packet ID to be used in reference
 	 */
-	public SubscribeResultData(String packetId) {
+	public UnsubscribeResultData(String packetId) {
 		setPacketId(packetId);
 	}
 
@@ -56,18 +53,4 @@ public class SubscribeResultData implements Serializable {
 		this.packetId = packetId;
 	}
 
-	/**
-	 * @return the returnCodes
-	 */
-	public List<Integer> getReturnCodes() {
-		return returnCodes;
-	}
-
-	/**
-	 * @param returnCodes the returnCodes to set
-	 */
-	public void setReturnCodes(List<Integer> returnCodes) {
-		this.returnCodes = returnCodes;
-	}
-	
 }

@@ -3,4 +3,4 @@
  * @author Ralph
  *
  */
-package rs.eventbroker.service;
+package rs.eventbroker.service.mqtt;

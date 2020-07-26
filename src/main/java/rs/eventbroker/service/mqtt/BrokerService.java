@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rs.eventbroker.service;
+package rs.eventbroker.service.mqtt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import rs.eventbroker.rest.RestResult;
 @Path("")
 @PermitAll
 @Api
-public class EBBrokerService extends AbstractService {
+public class BrokerService extends AbstractService {
 
 	/** Var to be used for testing the service */
 	public static String TEST_EVENT       = null;
@@ -43,7 +43,7 @@ public class EBBrokerService extends AbstractService {
 	/**
 	 * Constructor.
 	 */
-	public EBBrokerService() {
+	public BrokerService() {
 	}
 
 	/**

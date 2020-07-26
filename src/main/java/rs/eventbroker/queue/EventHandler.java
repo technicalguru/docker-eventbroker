@@ -7,7 +7,7 @@ import java.util.concurrent.Executor;
 
 import rs.data.util.IDaoIterator;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
-import rs.eventbroker.service.EventData;
+import rs.eventbroker.service.mqtt.EventData;
 
 /**
  * This class will take an event from the event queue and match it to 

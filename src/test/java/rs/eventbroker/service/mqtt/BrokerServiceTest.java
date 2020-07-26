@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rs.eventbroker.service;
+package rs.eventbroker.service.mqtt;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,18 +27,25 @@ import rs.eventbroker.Main;
 import rs.eventbroker.db.subscriber.ISubscriberBO;
 import rs.eventbroker.db.subscriber.SubscriberDao;
 import rs.eventbroker.rest.RestResult;
+import rs.eventbroker.service.mqtt.BrokerService;
+import rs.eventbroker.service.mqtt.EventData;
+import rs.eventbroker.service.mqtt.PublishResultData;
+import rs.eventbroker.service.mqtt.SubscribeData;
+import rs.eventbroker.service.mqtt.SubscribeResultData;
+import rs.eventbroker.service.mqtt.UnsubscribeData;
+import rs.eventbroker.service.mqtt.UnsubscribeResultData;
 
 /**
- * Test of the {@link EBBrokerService}.
+ * Test of the {@link BrokerService}.
  * @author ralph
  *
  */
-public class EBBrokerServiceTest extends AbstractServiceTest {
+public class BrokerServiceTest extends AbstractServiceTest {
 
 	/**
 	 * Constructor.
 	 */
-	public EBBrokerServiceTest() {
+	public BrokerServiceTest() {
 		super(false);
 	}
 
@@ -139,7 +146,7 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 	@Test
 	public void testPublish() throws Exception {
 		String callbackUrl = "http://"+getServiceHost()+":"+getServicePort()+"/consume";
-		String topic       = EBBrokerService.TEST_TOPIC;
+		String topic       = BrokerService.TEST_TOPIC;
 		try {
 			begin();
 			// Register the service itself as subscriber
@@ -152,11 +159,11 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			commit();
 
 			// Publish an event
-			EBBrokerService.TEST_EVENT = null;
+			BrokerService.TEST_EVENT = null;
 			EventData data = new EventData();
-			data.setPacketId(EBBrokerService.TEST_PACKET_ID);
+			data.setPacketId(BrokerService.TEST_PACKET_ID);
 			data.setTopicName(topic);
-			data.setPayload(EBBrokerService.TEST_PAYLOAD);
+			data.setPayload(BrokerService.TEST_PAYLOAD);
 			data.setRetainFlag(false);
 			data.setDupFlag(false);
 			data.setQos(0);
@@ -168,8 +175,8 @@ public class EBBrokerServiceTest extends AbstractServiceTest {
 			Thread.sleep(5000L);
 			
 			// Check the return (must be the same event)
-			assertNotNull("Event was not published (signal file missing)", EBBrokerService.TEST_EVENT);
-			assertEquals("Event is not correct", data.toString(), EBBrokerService.TEST_EVENT.trim());
+			assertNotNull("Event was not published (signal file missing)", BrokerService.TEST_EVENT);
+			assertEquals("Event is not correct", data.toString(), BrokerService.TEST_EVENT.trim());
 		} finally {
 			try {
 				// Unregister the service again

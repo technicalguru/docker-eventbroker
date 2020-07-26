@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rs.eventbroker.service;
+package rs.eventbroker.service.mqtt;
 
 import java.io.Serializable;
 

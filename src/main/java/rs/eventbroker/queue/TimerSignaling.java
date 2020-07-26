@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.concurrent.Executor;
 
 import rs.baselib.util.RsDate;
-import rs.eventbroker.service.EventData;
+import rs.eventbroker.service.mqtt.EventData;
 
 /**
  * A long-time running worker that signal every minute for timing events.

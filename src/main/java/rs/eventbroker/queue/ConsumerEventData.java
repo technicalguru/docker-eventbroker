@@ -4,7 +4,7 @@
 package rs.eventbroker.queue;
 
 import rs.eventbroker.db.subscriber.ISubscriberBO;
-import rs.eventbroker.service.EventData;
+import rs.eventbroker.service.mqtt.EventData;
 
 /**
  * Holds information about a consumer and an event to be delivered.

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package rs.eventbroker.service;
+package rs.eventbroker.queue;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import rs.baselib.util.RsDate;
 import rs.eventbroker.queue.EventHandler;
 import rs.eventbroker.queue.TimerSignaling;
+import rs.eventbroker.service.mqtt.EventData;
 
 /**
  * Testing the timer signaling
