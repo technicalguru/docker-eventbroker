@@ -16,13 +16,13 @@ _EventBroker_  is stable and used in a few production environments.
 _EventBroker_  is licensed under [GNU LGPL 3.0](LICENSE.md).
 
 ## Download
-_EventBroker_  is available as a Docker image at [DockerHub](https://hub.docker.com/r/technicalguru/eventbroker) and in Maven repositories. The current version is v1.0.
+_EventBroker_  is available as a Docker image at [DockerHub](https://hub.docker.com/r/technicalguru/eventbroker) and in Maven repositories. The current version is v1.1.
 
 ```
 <dependency>
   <groupId>eu.ralph-schuster</groupId>
   <artifactId>eventbroker</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
@@ -44,10 +44,11 @@ This will run  _EventBroker_  on port 80 with a HSQLDB as storage backend. Sever
 
 More documentation is available here:
 * [Source Code](https://github.com/technicalguru/docker-eventbroker)
-* [API Documentation](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.1/apidocs)
+* [API Documentation](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.1.0/apidocs)
 * [Cron Feature](CRON.md)
+* [Database Setup](DATABASE.md)
 * [OpenAPI/Swagger](apidocs/README.md)
-* [Maven Site](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.0.1/)
+* [Maven Site](https://download.ralph-schuster.eu/eu.ralph-schuster.eventbroker/1.1.0/)
 * [Change Log](CHANGES.md)
 
 ## Issues

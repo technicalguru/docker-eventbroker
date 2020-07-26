@@ -2,8 +2,8 @@
 <dbconfig>
    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
    <datasource class="com.mchange.v2.c3p0.ComboPooledDataSource">
-      <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
-      <property name="jdbcUrl">jdbc:mysql://eb-service:3306/eventbroker?useSSL=false&amp;autoReconnectForPools=true</property>
+      <property name="driverClass">org.mariadb.jdbc.Driver</property>
+      <property name="jdbcUrl">jdbc:mariadb://eb-service:3306/eventbroker?useSSL=false&amp;useReconnect=true</property>
       <property name="user">eb</property>
       <property name="password">eb</property>
       <property name="testConnectionOnCheckout">true</property>
