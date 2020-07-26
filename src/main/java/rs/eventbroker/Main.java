@@ -73,7 +73,7 @@ public class Main {
 		// Start server
 		LoggerFactory.getLogger(Main.class).info("Listening on: "+uri.toASCIIString());
 		HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, rc);
-
+		
 		// Make sure the event broker started
 		EventBroker.INSTANCE.start();
 

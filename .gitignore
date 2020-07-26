@@ -1,8 +1,5 @@
-/eb-test.hsqldb.lck
-/eb-test.hsqldb.log
-/eb-test.hsqldb.properties
-/eb-test.hsqldb.script
+/eb-test.hsqldb.*
 /target/
-/eb.hsqldb.log
-/eb.hsqldb.properties
-/eb.hsqldb.script
+/eb.hsqldb.*
+/src/main/resources/dbconfig-local*.xml
+/src/test/resources/dbconfig-local*.xml

@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>eu.ralph-schuster</groupId>
@@ -8,7 +10,7 @@
 
 	<groupId>eu.ralph-schuster</groupId>
 	<artifactId>eventbroker</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<name>RS Event Broker</name>
 	<description>An MQTT-alike event broker to enable losely coupled microservices being synchronized</description>
 	<url>https://github.com/technicalguru/evenbroker</url>
@@ -17,8 +19,8 @@
 		<connection>scm:git:https://github.com/technicalguru/eventbroker.git</connection>
 		<developerConnection>scm:git:https://github.com/technicalguru/eventbroker.git</developerConnection>
 		<url>https://github.com/technicalguru/evenbroker</url>
-	  <tag>v1.0.1</tag>
-  </scm>
+		<tag>v1.1.0</tag>
+	</scm>
 
 	<distributionManagement>
 		<site>
@@ -92,15 +94,16 @@
 			<artifactId>oauth2-client</artifactId>
 			<version>${jersey.version}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
-		<dependency> <groupId>org.glassfish.jersey.core</groupId> 
-			<artifactId>jersey-common</artifactId> 
-			<version>${jersey.version}</version> 
-		</dependency> 
-		<dependency> 
-			<groupId>org.glassfish.jersey.inject</groupId> 
-			<artifactId>jersey-hk2</artifactId> 
-			<version>${jersey.version}</version> 
- 		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.sun.activation</groupId>
 			<artifactId>javax.activation</artifactId>
@@ -122,6 +125,11 @@
 			<version>2.5.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.21</version>
@@ -134,21 +142,21 @@
 			<version>1.6.1</version>
 		</dependency>
 		<!-- Swagger YAML generation -->
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -241,27 +249,27 @@
 			</plugin>
 
 			<!-- Swagger YAML generation -->
-            <plugin>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>2.1.1</version>
-                <configuration>
-                    <outputFileName>openapi</outputFileName>
-                    <outputPath>src/openapi</outputPath>
-                    <outputFormat>JSONANDYAML</outputFormat>
-                    <configurationFilePath>${project.basedir}/src/main/resources/swaggerConfig.yaml</configurationFilePath>
-                </configuration>           
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>resolve</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            
+			<plugin>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<outputFileName>openapi</outputFileName>
+					<outputPath>src/openapi</outputPath>
+					<outputFormat>JSONANDYAML</outputFormat>
+					<configurationFilePath>${project.basedir}/src/main/resources/swaggerConfig.yaml</configurationFilePath>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>resolve</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>

@@ -5,6 +5,7 @@ package rs.eventbroker.db;
 
 import rs.data.impl.AbstractDaoFactory;
 import rs.eventbroker.db.subscriber.SubscriberDao;
+import rs.eventbroker.db.token.TokenDao;
 
 /**
  * @author ralph
@@ -24,5 +25,13 @@ public class EBDaoFactory extends AbstractDaoFactory {
 	 */
 	public SubscriberDao getSubscriberDao() {
 		return getDao(SubscriberDao.class);
+	}
+
+	/**
+	 * Returns the token DAO.
+	 * @return the token DAO
+	 */
+	public TokenDao getTokenDao() {
+		return getDao(TokenDao.class);
 	}
 }

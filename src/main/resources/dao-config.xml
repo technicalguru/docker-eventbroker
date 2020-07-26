@@ -9,6 +9,7 @@
 		</DaoMaster>
 
 		<Dao class="rs.eventbroker.db.subscriber.SubscriberDao" />
+		<Dao class="rs.eventbroker.db.token.TokenDao" />
 		
 	</DaoFactory>
 </dao-config>

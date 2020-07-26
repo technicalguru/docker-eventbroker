@@ -27,7 +27,9 @@
 		<property name="hibernate.connection.provider_class">rs.data.hibernate.util.DataSourceConnectionProvider</property>
 	
 		<!-- Class mappings -->
+		<mapping resource="hbm/typedefs.hbm.xml"/>
 		<mapping resource="hbm/subscribers.hbm.xml"/>
+		<mapping resource="hbm/tokens.hbm.xml"/>
 		
 	</session-factory>
 	
