@@ -8,8 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 import rs.baselib.util.CommonUtils;
+import rs.eventbroker.Main;
 
 /**
  * Security context for Event Broker.
@@ -23,8 +25,21 @@ public class EBSecurityContext implements SecurityContext {
 	
 	/**
 	 * Constructor.
+	 * @param uriInfo       - information about the request path
+	 * @param authorization - the request authorization header
 	 */
-	public EBSecurityContext() {
+	public EBSecurityContext(UriInfo uriInfo, String authorization) {
+		String secureToken   = Main.getSecureToken();
+		// Check request request
+		if (secureToken == null) {
+			addRole(EBRoles.CLIENT.name());
+		} else {
+			if (authorization != null) {
+				if (authorization.startsWith("Bearer "+secureToken)) {
+					addRole(EBRoles.CLIENT.name());
+				}
+			}
+		}
 	}
 
 	/**
