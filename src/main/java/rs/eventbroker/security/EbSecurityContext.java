@@ -18,7 +18,7 @@ import rs.eventbroker.Main;
  * @author ralph
  *
  */
-public class EBSecurityContext implements SecurityContext {
+public class EbSecurityContext implements SecurityContext {
 
 	private boolean secure = false;
 	private Set<String> roles = new HashSet<String>();
@@ -28,15 +28,15 @@ public class EBSecurityContext implements SecurityContext {
 	 * @param uriInfo       - information about the request path
 	 * @param authorization - the request authorization header
 	 */
-	public EBSecurityContext(UriInfo uriInfo, String authorization) {
+	public EbSecurityContext(UriInfo uriInfo, String authorization) {
 		String secureToken   = Main.getSecureToken();
 		// Check request request
 		if (secureToken == null) {
-			addRole(EBRoles.CLIENT.name());
+			addRole(Roles.CLIENT.name());
 		} else {
 			if (authorization != null) {
 				if (authorization.startsWith("Bearer "+secureToken)) {
-					addRole(EBRoles.CLIENT.name());
+					addRole(Roles.CLIENT.name());
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public class EBSecurityContext implements SecurityContext {
 	@Override
 	public boolean isUserInRole(String role) {
 		// authorized clients are always enabled
-		if (roles.contains(EBRoles.CLIENT.name())) return true;
+		if (roles.contains(Roles.CLIENT.name())) return true;
 		
 		// Is the role available?
 		return roles.contains(role);

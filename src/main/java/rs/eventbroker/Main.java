@@ -10,7 +10,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.LoggerFactory;
 
 import rs.eventbroker.queue.EventBroker;
-import rs.eventbroker.security.EBSecurityRequestFilter;
+import rs.eventbroker.security.SecurityRequestFilter;
 
 /**
  * Main class.
@@ -65,7 +65,7 @@ public class Main {
 		// in com.example package
 		ResourceConfig rc = new ResourceConfig().packages("rs.eventbroker");
 		rc.register(RolesAllowedDynamicFeature.class);
-		rc.register(EBSecurityRequestFilter.class);
+		rc.register(SecurityRequestFilter.class);
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at given interface hosts
 		URI uri = URI.create(BASE_URI);

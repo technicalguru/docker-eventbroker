@@ -8,7 +8,6 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import rs.data.impl.OsgiModelServiceImpl;
 import rs.eventbroker.db.EBDaoFactory;
-import rs.eventbroker.security.EBSecurityContext;
+import rs.eventbroker.security.EbSecurityContext;
 
 /**
  * Abstract Service implementation.
@@ -28,7 +27,7 @@ public abstract class AbstractService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Context
-	SecurityContext securityContext;
+	EbSecurityContext securityContext;
 	@Context
 	UriInfo uriInfo;
 	@Context
@@ -128,8 +127,8 @@ public abstract class AbstractService {
 	 * Returns the {@link #securityContext}.
 	 * @return the securityContext
 	 */
-	public EBSecurityContext getSecurityContext() {
-		return (EBSecurityContext)securityContext;
+	public EbSecurityContext getSecurityContext() {
+		return (EbSecurityContext)securityContext;
 	}
 
 	/**

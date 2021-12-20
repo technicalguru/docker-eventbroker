@@ -6,23 +6,6 @@ info:
     email: technicalguru@github.com
   version: "1.0"
 paths:
-  /publish:
-    post:
-      summary: Publish event
-      description: Publish an MQTT event on a topic
-      operationId: publish
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/EventData'
-      responses:
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestResultPublishResultData'
   /consume:
     post:
       summary: Consume event
@@ -40,6 +23,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestResultEventData'
+  /publish:
+    post:
+      summary: Publish event
+      description: Publish an MQTT event on a topic
+      operationId: publish
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/EventData'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestResultPublishResultData'
   /subscribe:
     post:
       summary: Subscribe topic
@@ -74,19 +74,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestResultUnsubscribeResultData'
+  /tokens:
+    post:
+      summary: Create authorization token
+      description: Publish an MQTT event on a topic
+      operationId: create
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/TokenData'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestResultTokenResultData'
 components:
   schemas:
-    PublishResultData:
-      type: object
-    RestResultPublishResultData:
-      type: object
-      properties:
-        success:
-          type: boolean
-        errorMessage:
-          type: string
-        data:
-          $ref: '#/components/schemas/PublishResultData'
     EventData:
       type: object
       properties:
@@ -112,6 +118,17 @@ components:
           type: string
         data:
           $ref: '#/components/schemas/EventData'
+    PublishResultData:
+      type: object
+    RestResultPublishResultData:
+      type: object
+      properties:
+        success:
+          type: boolean
+        errorMessage:
+          type: string
+        data:
+          $ref: '#/components/schemas/PublishResultData'
     RestResultSubscribeResultData:
       type: object
       properties:
@@ -169,3 +186,16 @@ components:
             type: string
         callbackUrl:
           type: string
+    RestResultTokenResultData:
+      type: object
+      properties:
+        success:
+          type: boolean
+        errorMessage:
+          type: string
+        data:
+          $ref: '#/components/schemas/TokenResultData'
+    TokenResultData:
+      type: object
+    TokenData:
+      type: object

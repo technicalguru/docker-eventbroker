@@ -13,18 +13,18 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
 /**
- * Replaces the {@link javax.ws.rs.core.SecurityContext} in the request.
+ * Replaces the {@link javax.ws.rs.core.EbSecurityContext} in the request.
  * @author ralph
  *
  */
 @Priority(Priorities.AUTHENTICATION)
 @Provider
-public class EBSecurityRequestFilter implements ContainerRequestFilter {
+public class SecurityRequestFilter implements ContainerRequestFilter {
 
 	/**
 	 * Constructor.
 	 */
-	public EBSecurityRequestFilter() {
+	public SecurityRequestFilter() {
 	}
 
 	/**
@@ -33,8 +33,8 @@ public class EBSecurityRequestFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		// Create the context
-		EBSecurityContext securityContext = createSecurityContext(requestContext);
-		requestContext.setSecurityContext(securityContext);
+		EbSecurityContext ebSecurityContext = createSecurityContext(requestContext);
+		requestContext.setSecurityContext(ebSecurityContext);
 	}
 
 	/**
@@ -42,10 +42,10 @@ public class EBSecurityRequestFilter implements ContainerRequestFilter {
 	 * @param requestContext - the request context for extracting values
 	 * @return a new security instance
 	 */
-	protected EBSecurityContext createSecurityContext(ContainerRequestContext requestContext) {
+	protected EbSecurityContext createSecurityContext(ContainerRequestContext requestContext) {
 		String authValue     = requestContext.getHeaderString("Authorization");
 		UriInfo uriInfo      = requestContext.getUriInfo();
-		EBSecurityContext rc = new EBSecurityContext(uriInfo, authValue);
+		EbSecurityContext rc = new EbSecurityContext(uriInfo, authValue);
 		rc.setSecure(requestContext.getSecurityContext().isSecure());
 		return rc;
 	}
