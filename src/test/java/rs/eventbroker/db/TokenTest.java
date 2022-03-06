@@ -6,7 +6,7 @@ package rs.eventbroker.db;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
 import rs.baselib.util.RsDate;
